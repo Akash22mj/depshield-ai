@@ -1,6 +1,6 @@
-﻿---
-title: DepShield AI â€” 3D Supply-Chain Defense Studio
-emoji: ðŸ›¡ï¸
+---
+title: DepShield AI - Supply-Chain Defense Studio
+emoji: 🛡
 colorFrom: purple
 colorTo: green
 sdk: gradio

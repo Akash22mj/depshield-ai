@@ -1,4 +1,4 @@
-﻿import os
+import os
 import sys
 import threading
 import time
@@ -12,6 +12,14 @@ if SRC_DIR not in sys.path:
 import uvicorn
 
 from api import app
+from depshield.rag_agent import SupplyChainRAGAgent
+
+
+def _ensure_vectorstore() -> None:
+    try:
+        SupplyChainRAGAgent().build_vector_index(force_rebuild=False)
+    except Exception as exc:
+        print(f"[DepShield] Vectorstore init notice: {exc}")
 
 
 def _open_browser() -> None:
@@ -20,6 +28,7 @@ def _open_browser() -> None:
 
 
 if __name__ == "__main__":
+    _ensure_vectorstore()
     if os.name == "nt":
         threading.Thread(target=_open_browser, daemon=True).start()
         uvicorn.run(app, host="127.0.0.1", port=7860)
