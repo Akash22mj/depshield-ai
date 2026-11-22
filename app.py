@@ -12,12 +12,12 @@ if SRC_DIR not in sys.path:
 import uvicorn
 
 from api import app
-from depshield.rag_agent import SupplyChainRAGAgent
+from depshield.rag_agent import ThreatRAGAgent
 
 
 def _ensure_vectorstore() -> None:
     try:
-        SupplyChainRAGAgent().build_vector_index(force_rebuild=False)
+        ThreatRAGAgent().build_vector_index(force_rebuild=False)
     except Exception as exc:
         print(f"[DepShield] Vectorstore init notice: {exc}")
 
