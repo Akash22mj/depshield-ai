@@ -5,15 +5,6 @@ import time
 import webbrowser
 from pathlib import Path
 
-SRC_DIR = str(Path(__file__).resolve().parent / "src")
-if SRC_DIR not in sys.path:
-    sys.path.insert(0, SRC_DIR)
-
-import uvicorn
-
-from api import app
-from depshield.rag_agent import ThreatRAGAgent
-
 try:
     import spaces
 
@@ -21,7 +12,22 @@ try:
     def _hf_zerogpu_heartbeat() -> str:
         return "DepShield AI ZeroGPU runtime active"
 except ImportError:
-    pass
+    spaces = None
+
+import torch
+
+_orig_cuda_available = torch.cuda.is_available
+torch.cuda.is_available = lambda: False
+
+SRC_DIR = str(Path(__file__).resolve().parent / "src")
+if SRC_DIR not in sys.path:
+    sys.path.insert(0, SRC_DIR)
+
+import uvicorn
+from api import app
+from depshield.rag_agent import ThreatRAGAgent
+
+torch.cuda.is_available = _orig_cuda_available
 
 
 def _ensure_vectorstore() -> None:
