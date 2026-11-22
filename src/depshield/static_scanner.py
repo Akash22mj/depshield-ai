@@ -124,7 +124,7 @@ def scan_package_static(
     long_encoded_blobs = 0
 
     try:
-        tree = ast.parse(record.setup_code)
+        tree = ast.parse(record.setup_code.replace("\x00", ""))
         for node in ast.walk(tree):
             if isinstance(node, ast.Import):
                 for alias in node.names:
