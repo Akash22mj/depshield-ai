@@ -24,7 +24,7 @@ if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
 
 import uvicorn
-from api import app
+from api import FRONTEND_HTML, app
 from depshield.rag_agent import ThreatRAGAgent
 
 torch.cuda.is_available = _orig_cuda_available
@@ -50,15 +50,20 @@ if __name__ == "__main__":
     else:
         import gradio as gr
         import gradio.routes
+        from fastapi.responses import FileResponse
 
         _orig_create_app = gradio.routes.App.create_app
 
         def _patched_create_app(*args, **kwargs):
             gradio_app = _orig_create_app(*args, **kwargs)
-            gradio_app.router.routes = [
-                r for r in gradio_app.router.routes if getattr(r, "path", None) != "/"
-            ]
             gradio_app.router.routes[0:0] = app.router.routes
+
+            @gradio_app.middleware("http")
+            async def _serve_depshield_frontend(request, call_next):
+                if request.url.path == "/":
+                    return FileResponse(FRONTEND_HTML)
+                return await call_next(request)
+
             return gradio_app
 
         gradio.routes.App.create_app = _patched_create_app
