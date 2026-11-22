@@ -73,4 +73,4 @@ if __name__ == "__main__":
             if spaces is not None:
                 btn.click(fn=_hf_zerogpu_heartbeat, outputs=gr.Textbox())
 
-        demo.launch(server_name="0.0.0.0", server_port=7860)
+        demo.launch(server_name="0.0.0.0", server_port=7860, ssr_mode=False)
