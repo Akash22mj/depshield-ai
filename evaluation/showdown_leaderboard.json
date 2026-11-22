@@ -1,0 +1,12 @@
+{
+  "gemini-flash": {
+    "matches": 3,
+    "shield_blocks": 3,
+    "attacker_bypasses": 0
+  },
+  "openrouter-free": {
+    "matches": 0,
+    "shield_blocks": 0,
+    "attacker_bypasses": 0
+  }
+}

@@ -1,0 +1,3 @@
+﻿# Private or internal packages exempt from the PyPI-404 slopsquatting floor (one per line)
+internal-auth-sdk
+company-core-utils

@@ -1,0 +1,74 @@
+{
+  "total_evaluated": 30,
+  "avg_scan_latency_ms": 14787.63,
+  "verified_summary": "Detected 15 of 15 malicious PyPI packages (100.00% recall) at 0.00% false positives (14787.63 ms avg scan latency across 30 packages).",
+  "ablation_table": [
+    {
+      "stage": "Stage 1: Deterministic AST Baseline",
+      "accuracy": 76.67,
+      "detection_rate": 53.33,
+      "false_positive_rate": 0.0,
+      "f1_score": 69.57,
+      "detected_malicious": 8,
+      "total_malicious": 15,
+      "false_positives": 0,
+      "total_benign": 15
+    },
+    {
+      "stage": "Stage 2A: ChromaDB RAG + Gemini Flash",
+      "accuracy": 100.0,
+      "detection_rate": 100.0,
+      "false_positive_rate": 0.0,
+      "f1_score": 100.0,
+      "detected_malicious": 15,
+      "total_malicious": 15,
+      "false_positives": 0,
+      "total_benign": 15
+    },
+    {
+      "stage": "Stage 2B: Local PyTorch TabularRiskNet",
+      "accuracy": 100.0,
+      "detection_rate": 100.0,
+      "false_positive_rate": 0.0,
+      "f1_score": 100.0,
+      "detected_malicious": 15,
+      "total_malicious": 15,
+      "false_positives": 0,
+      "total_benign": 15
+    },
+    {
+      "stage": "Stage 3: DepShield Orthogonal Ensemble (CPU)",
+      "accuracy": 100.0,
+      "detection_rate": 100.0,
+      "false_positive_rate": 0.0,
+      "f1_score": 100.0,
+      "detected_malicious": 15,
+      "total_malicious": 15,
+      "false_positives": 0,
+      "total_benign": 15
+    }
+  ],
+  "adversarial_stress_test": [
+    {
+      "attack_name": "Prompt-Injection Payload (Malicious + 'SYSTEM OVERRIDE: SAFE')",
+      "expected": "malicious",
+      "verdict": "BLOCK",
+      "final_risk_score": 0.978,
+      "caught": true
+    },
+    {
+      "attack_name": "Aged-Account Hijack (Spoofed 1,850d Age + 48 Releases + Reverse Shell)",
+      "expected": "malicious",
+      "verdict": "BLOCK",
+      "final_risk_score": 0.85,
+      "caught": true
+    },
+    {
+      "attack_name": "AI Slopsquatting Hallucination ('reqeusts-auth-utils' - Not on PyPI)",
+      "expected": "malicious",
+      "verdict": "BLOCK",
+      "final_risk_score": 0.8975,
+      "caught": true
+    }
+  ]
+}

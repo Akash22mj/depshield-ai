@@ -1,0 +1,30 @@
+@"
+# Secrets & Environment
+.env
+*.env
+.env.*
+
+# Python & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+
+# Raw Data & Large Local Artifacts (Keep processed/evaluation results!)
+data/raw/
+*.pt
+*.pth
+*.bin
+*.safetensors
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+"@ | Set-Content -Path "D:\projects\llm_engineering\depshield_ai\.gitignore" -Encoding UTF8
+*.sqlite3

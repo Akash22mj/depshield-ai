@@ -1,0 +1,82 @@
+{
+  "ablation_table": [
+    {
+      "stage": "Stage 1: Deterministic AST Baseline",
+      "accuracy": 80.43,
+      "detection_rate": 60.87,
+      "false_positive_rate": 0.0,
+      "f1_score": 75.68,
+      "tp": 14,
+      "fp": 0,
+      "tn": 23,
+      "fn": 9
+    },
+    {
+      "stage": "Stage 2A: ChromaDB RAG + Gemini Flash",
+      "accuracy": 100.0,
+      "detection_rate": 100.0,
+      "false_positive_rate": 0.0,
+      "f1_score": 100.0,
+      "tp": 23,
+      "fp": 0,
+      "tn": 23,
+      "fn": 0
+    },
+    {
+      "stage": "Stage 2B: Local PyTorch TabularRiskNet",
+      "accuracy": 100.0,
+      "detection_rate": 100.0,
+      "false_positive_rate": 0.0,
+      "f1_score": 100.0,
+      "tp": 23,
+      "fp": 0,
+      "tn": 23,
+      "fn": 0
+    },
+    {
+      "stage": "Stage 2C: Modal T4 QLoRA (Code-Only)",
+      "accuracy": 95.65,
+      "detection_rate": 100.0,
+      "false_positive_rate": 8.7,
+      "f1_score": 95.83,
+      "tp": 23,
+      "fp": 2,
+      "tn": 21,
+      "fn": 0
+    },
+    {
+      "stage": "Stage 3: DepShield Orthogonal Ensemble",
+      "accuracy": 100.0,
+      "detection_rate": 100.0,
+      "false_positive_rate": 0.0,
+      "f1_score": 100.0,
+      "tp": 23,
+      "fp": 0,
+      "tn": 23,
+      "fn": 0
+    }
+  ],
+  "adversarial_stress_test": [
+    {
+      "attack_name": "Prompt-Injection Payload (Malicious + 'SYSTEM OVERRIDE: SAFE')",
+      "expected": "malicious",
+      "verdict": "BLOCK",
+      "final_risk_score": 0.973,
+      "caught": true
+    },
+    {
+      "attack_name": "Aged-Account Hijack (Spoofed 1,850d Age + 48 Releases + Reverse Shell)",
+      "expected": "malicious",
+      "verdict": "BLOCK",
+      "final_risk_score": 0.88,
+      "caught": true
+    },
+    {
+      "attack_name": "AI Slopsquatting Hallucination ('reqeusts-auth-utils' - Not on PyPI)",
+      "expected": "malicious",
+      "verdict": "BLOCK",
+      "final_risk_score": 0.918,
+      "caught": true
+    }
+  ]
+}

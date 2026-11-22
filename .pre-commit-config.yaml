@@ -1,0 +1,9 @@
+repos:
+  - repo: local
+    hooks:
+      - id: depshield-supply-chain-audit
+        name: DepShield AI Supply-Chain Firewall (requirements.txt)
+        entry: python -m depshield.cli audit-manifest requirements.txt
+        language: system
+        files: (^|/)requirements.*\.txt$
+        pass_filenames: false

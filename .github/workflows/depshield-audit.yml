@@ -1,0 +1,37 @@
+name: DepShield AI Supply-Chain Audit
+
+on:
+  pull_request:
+    paths:
+      - "**/requirements*.txt"
+      - "pyproject.toml"
+  workflow_dispatch:
+
+jobs:
+  supply-chain-firewall:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install DepShield dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-hf.txt
+
+      - name: Audit requirements.txt with DepShield AI
+        env:
+          PYTHONPATH: src
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          if [ -f requirements.txt ]; then
+            python -m depshield.cli audit-manifest requirements.txt
+          else
+            echo "No requirements.txt at repo root; skipping."
+          fi

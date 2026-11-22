@@ -1,0 +1,202 @@
+{
+  "evaluation_protocol": "Strict train/test isolation (train.jsonl excluded); check_live_registry=False so PyPI-404 floor cannot inflate recall; includes hard-negative benign packages using subprocess/socket/ctypes and 15 unseen spoofed-age evasions.",
+  "verified_summary": "On a strictly held-out benchmark of 28 malicious and 21 clean/hard-negative packages (offline registry mode, zero 404-floor inflation), DepShield achieved 100.0% recall (95% CI: 87.94%\u2013100.0%) at 38.1% FPR (95% CI: 20.75%\u201359.12%), catching 15/15 unseen spoofed-age evasion payloads.",
+  "hard_negatives_tested": 8,
+  "hard_negatives_false_positives": 8,
+  "unseen_evasions_caught": "15/15",
+  "avg_ensemble_latency_ms": 11191.3,
+  "ablation_table": [
+    {
+      "stage": "Stage 1: Deterministic AST Baseline (N=113)",
+      "sample_count": 113,
+      "accuracy": 73.45,
+      "detection_rate": 51.67,
+      "recall_95_ci": "39.31%\u201363.83%",
+      "false_positive_rate": 1.89,
+      "fpr_95_ci": "0.33%\u20139.94%",
+      "f1_score": 67.39,
+      "tp": 31,
+      "fp": 1,
+      "tn": 52,
+      "fn": 29
+    },
+    {
+      "stage": "Stage 2A: ChromaDB RAG + LLM Judge (N=49)",
+      "sample_count": 49,
+      "accuracy": 83.67,
+      "detection_rate": 100.0,
+      "recall_95_ci": "87.94%\u2013100.0%",
+      "false_positive_rate": 38.1,
+      "fpr_95_ci": "20.75%\u201359.12%",
+      "f1_score": 87.5,
+      "tp": 28,
+      "fp": 8,
+      "tn": 13,
+      "fn": 0
+    },
+    {
+      "stage": "Stage 2B: PyTorch TabularNet [Full Metadata] (N=113)",
+      "sample_count": 113,
+      "accuracy": 79.65,
+      "detection_rate": 75.0,
+      "recall_95_ci": "62.77%\u201384.22%",
+      "false_positive_rate": 15.09,
+      "fpr_95_ci": "7.85%\u201327.05%",
+      "f1_score": 79.65,
+      "tp": 45,
+      "fp": 8,
+      "tn": 45,
+      "fn": 15
+    },
+    {
+      "stage": "Stage 2B-Ablation: PyTorch [Age/Releases Neutralized] (N=113)",
+      "sample_count": 113,
+      "accuracy": 50.44,
+      "detection_rate": 6.67,
+      "recall_95_ci": "2.62%\u201315.93%",
+      "false_positive_rate": 0.0,
+      "fpr_95_ci": "0.0%\u20136.76%",
+      "f1_score": 12.5,
+      "tp": 4,
+      "fp": 0,
+      "tn": 53,
+      "fn": 56
+    },
+    {
+      "stage": "Stage 3: DepShield Orthogonal Ensemble (N=49)",
+      "sample_count": 49,
+      "accuracy": 83.67,
+      "detection_rate": 100.0,
+      "recall_95_ci": "87.94%\u2013100.0%",
+      "false_positive_rate": 38.1,
+      "fpr_95_ci": "20.75%\u201359.12%",
+      "f1_score": 87.5,
+      "tp": 28,
+      "fp": 8,
+      "tn": 13,
+      "fn": 0
+    }
+  ],
+  "unseen_evasion_breakdown": [
+    {
+      "technique": "rot13_exec",
+      "package_name": "urllib-retry-ext",
+      "verdict": "BLOCK",
+      "risk_score": 0.5912,
+      "pytorch_only_risk": 0.0141,
+      "caught": true
+    },
+    {
+      "technique": "chr_join_eval",
+      "package_name": "pydantic-fast-core",
+      "verdict": "BLOCK",
+      "risk_score": 0.5928,
+      "pytorch_only_risk": 0.0043,
+      "caught": true
+    },
+    {
+      "technique": "dunder_subclasses",
+      "package_name": "fastapi-cache-pro",
+      "verdict": "WARN",
+      "risk_score": 0.5468,
+      "pytorch_only_risk": 0.001,
+      "caught": true
+    },
+    {
+      "technique": "hex_bytes_exec",
+      "package_name": "numpy-simd-accel",
+      "verdict": "BLOCK",
+      "risk_score": 0.5693,
+      "pytorch_only_risk": 0.0011,
+      "caught": true
+    },
+    {
+      "technique": "env_key_exfil_dns",
+      "package_name": "boto3-session-sync",
+      "verdict": "BLOCK",
+      "risk_score": 0.5764,
+      "pytorch_only_risk": 0.0396,
+      "caught": true
+    },
+    {
+      "technique": "spoofed_old_dropper",
+      "package_name": "legacy-xml-helper",
+      "verdict": "BLOCK",
+      "risk_score": 0.6385,
+      "pytorch_only_risk": 0.0749,
+      "caught": true
+    },
+    {
+      "technique": "prompt_override_exfil",
+      "package_name": "fast-json-loader-pro",
+      "verdict": "BLOCK",
+      "risk_score": 0.6505,
+      "pytorch_only_risk": 0.1117,
+      "caught": true
+    },
+    {
+      "technique": "ssh_key_reader",
+      "package_name": "paramiko-key-helper",
+      "verdict": "BLOCK",
+      "risk_score": 0.6024,
+      "pytorch_only_risk": 0.033,
+      "caught": true
+    },
+    {
+      "technique": "builtins_dict_lookup",
+      "package_name": "requests-pool-opt",
+      "verdict": "BLOCK",
+      "risk_score": 0.5529,
+      "pytorch_only_risk": 0.0012,
+      "caught": true
+    },
+    {
+      "technique": "sqlite_browser_steal",
+      "package_name": "chrome-cookie-sync",
+      "verdict": "BLOCK",
+      "risk_score": 0.5688,
+      "pytorch_only_risk": 0.0143,
+      "caught": true
+    },
+    {
+      "technique": "zlib_decompress_exec",
+      "package_name": "scipy-sparse-opt",
+      "verdict": "BLOCK",
+      "risk_score": 0.7829,
+      "pytorch_only_risk": 0.4179,
+      "caught": true
+    },
+    {
+      "technique": "crontab_persistence",
+      "package_name": "celery-beat-helper",
+      "verdict": "BLOCK",
+      "risk_score": 0.6056,
+      "pytorch_only_risk": 0.0254,
+      "caught": true
+    },
+    {
+      "technique": "pip_conf_hijack",
+      "package_name": "pip-mirror-accel",
+      "verdict": "WARN",
+      "risk_score": 0.5336,
+      "pytorch_only_risk": 0.0121,
+      "caught": true
+    },
+    {
+      "technique": "reverse_pty_shell",
+      "package_name": "uvicorn-worker-ext",
+      "verdict": "BLOCK",
+      "risk_score": 0.605,
+      "pytorch_only_risk": 0.0383,
+      "caught": true
+    },
+    {
+      "technique": "dotenv_exfil",
+      "package_name": "python-dotenv-ext",
+      "verdict": "BLOCK",
+      "risk_score": 0.5966,
+      "pytorch_only_risk": 0.032,
+      "caught": true
+    }
+  ]
+}
