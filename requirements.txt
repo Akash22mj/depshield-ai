@@ -11,3 +11,5 @@ scikit-learn>=1.5.2
 mcp>=1.2.0
 modal>=0.65.0
 sentence-transformers
+
+spaces

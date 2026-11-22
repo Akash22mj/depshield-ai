@@ -9,6 +9,15 @@ SRC_DIR = str(Path(__file__).resolve().parent / "src")
 if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
 
+try:
+    import spaces
+
+    @spaces.GPU
+    def _hf_zerogpu_heartbeat() -> str:
+        return "DepShield AI ZeroGPU runtime active"
+except ImportError:
+    pass
+
 import uvicorn
 
 from api import app
