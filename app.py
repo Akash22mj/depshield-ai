@@ -49,13 +49,23 @@ if __name__ == "__main__":
         uvicorn.run(app, host="127.0.0.1", port=7860)
     else:
         import gradio as gr
+        import gradio.routes
+
+        _orig_create_app = gradio.routes.App.create_app
+
+        def _patched_create_app(*args, **kwargs):
+            gradio_app = _orig_create_app(*args, **kwargs)
+            gradio_app.router.routes = [
+                r for r in gradio_app.router.routes if getattr(r, "path", None) != "/"
+            ]
+            gradio_app.router.routes[0:0] = app.router.routes
+            return gradio_app
+
+        gradio.routes.App.create_app = _patched_create_app
 
         with gr.Blocks() as demo:
             btn = gr.Button("Heartbeat")
             if spaces is not None:
                 btn.click(fn=_hf_zerogpu_heartbeat, outputs=gr.Textbox())
 
-        demo.launch(server_name="0.0.0.0", server_port=7860, prevent_thread_lock=True)
-        demo.app.router.routes[0:0] = app.router.routes
-        while True:
-            time.sleep(3600)
+        demo.launch(server_name="0.0.0.0", server_port=7860)
