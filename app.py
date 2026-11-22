@@ -9,6 +9,11 @@ SRC_DIR = str(Path(__file__).resolve().parent / "src")
 if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
 
+import uvicorn
+
+from api import app
+from depshield.rag_agent import ThreatRAGAgent
+
 try:
     import spaces
 
@@ -17,11 +22,6 @@ try:
         return "DepShield AI ZeroGPU runtime active"
 except ImportError:
     pass
-
-import uvicorn
-
-from api import app
-from depshield.rag_agent import ThreatRAGAgent
 
 
 def _ensure_vectorstore() -> None:
